@@ -11,8 +11,8 @@ class NewVisitorTest(unittest.TestCase):
     def setUp(self):
         self.browser = webdriver.Firefox()
 
-    def tearDown(self):
-        self.browser.quit()
+    # def tearDown(self):
+    #     self.browser.quit()
 
     def test_can_start_a_list_and_retrieve_it_later(self):
         self.browser.get('http://localhost:8000')
@@ -25,12 +25,12 @@ class NewVisitorTest(unittest.TestCase):
             'Enter a to-do item'
         )
         inputbox.send_keys('Buy peacock feathers')
-        inputbox.send_keys(Keys.Enter)
+        inputbox.send_keys(Keys.ENTER)
         time.sleep(1)
         table = self.browser.find_element(By.ID, 'id_list_table')
         rows = table.find_element(By.TAG_NAME, 'tr')
         self.assertTrue(
-            any(row.text == '1: Buy peacock feathers' for row in rows)
+            any(row.text == '1: Buy peacock feathers' for row in rows),"New to-do item did not appear in table"
         )
         self.fail('Finish the test!')
 
