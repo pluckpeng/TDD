@@ -3,6 +3,10 @@ from django.test import TestCase
 
 class ItemModelTest(TestCase):
 
+    def test_uses_home_template(self):
+        response = self.client.get('/')
+        self.assertTemplateUsed(response,'home.html')
+
     def test_displays_all_list_items(self):
         Item.objects.create(text='itemey 1')
         Item.objects.create(text='itemey 2')
