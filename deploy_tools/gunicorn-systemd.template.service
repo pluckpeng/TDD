@@ -1,0 +1,11 @@
+[Unit]
+Description=Gunicorn Server for 139.196.19.41
+
+[Service]
+Restart=on-failure
+User=ecs-assist-user
+WorkingDirectory=/home/ecs-assist-user/sites/SPD/source
+ExecStart=gunicorn --bind unix:/tmp/139.196.19.41.socket superlists.wsgi:application
+
+[Install]
+WantedBy=multi-user.target

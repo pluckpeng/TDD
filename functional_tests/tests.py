@@ -7,16 +7,25 @@ from selenium.webdriver.common.by import By
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium.common.exceptions import WebDriverException
 import os
+from selenium.webdriver.chrome.options import Options
+
 
 STAGING_SERVER = '139.196.19.41'
 
 MAX_WAIT=10
 
+opts=Options()
+opts.add_argument('--headless')  # 无界面化
+opts.add_argument('--disable-gpu')  # 配合上面的无界面化
+opts.add_argument("--no-sandbox") #使用沙盒模式运行
+
 # class NewVisitorTest(LiveServerTestCase):
 class NewVisitorTest(StaticLiveServerTestCase):    
 
     def setUp(self):
-        self.browser = webdriver.Chrome()
+        
+        self.browser = webdriver.Chrome(chrome_options=opts)
+        
         # staging_server=os.environ.get('STAGING_SERVER')
         staging_server=True
         if staging_server:
@@ -72,7 +81,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
         edith_list_url = self.browser.current_url
         self.assertRegex(edith_list_url,'/lists/.+')
         self.browser.quit()
-        self.browser = webdriver.Chrome()
+        self.browser = webdriver.Chrome(chrome_options=opts)
 
         self.browser.get(self.live_server_url)
         page_text = self.browser.find_element_by_tag_name('body').text
